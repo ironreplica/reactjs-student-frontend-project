@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "./Loader/Loader";
+import "../components/components.scss";
 
 const apiString = `https://nodejs-student-api-hg21.onrender.com/students`;
 
@@ -12,12 +13,12 @@ const Record = (props) => (
     <td>{props.record.age}</td>
     <td>{props.record.currentCollege}</td>
     <td>
-      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>
+      <Link className="btn" to={`/edit/${props.record._id}`}>
         Edit
       </Link>
       |
       <button
-        className="btn btn-link"
+        className="btn"
         onClick={() => {
           props.deleteRecord(props.record._id);
         }}
