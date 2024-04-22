@@ -73,7 +73,7 @@ export default function Edit() {
 
   // This following section will display the form that takes input from the user to update the data.
   return (
-    <div>
+    <div className="form-wrapper">
       <h3>Update Record</h3>
       <form onSubmit={onSubmit}>
         <div className="form-group">
@@ -108,7 +108,7 @@ export default function Edit() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="age">Music Genre</label>
+          <label htmlFor="age">Age: </label>
           <input
             type="text"
             className="form-control"
