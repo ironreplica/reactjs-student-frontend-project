@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "./Loader/Loader";
+import "../components/components.scss";
 
 const apiString = `https://nodejs-student-api-hg21.onrender.com/students`;
-
 const Record = (props) => (
   <tr>
     <td>{props.record.firstName}</td>
@@ -12,12 +12,12 @@ const Record = (props) => (
     <td>{props.record.age}</td>
     <td>{props.record.currentCollege}</td>
     <td>
-      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>
+      <Link className="modify-student edit" to={`/edit/${props.record._id}`}>
         Edit
       </Link>
       |
       <button
-        className="btn btn-link"
+        className="modify-student delete"
         onClick={() => {
           props.deleteRecord(props.record._id);
         }}
@@ -32,12 +32,10 @@ export default function RecordList() {
   const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState([]);
 
-  {
-    loading ? <Loader /> : recordList();
-  }
   // This method fetches the records from the database.
   useEffect(() => {
     setLoading(true);
+
     async function getRecords() {
       const response = await fetch(apiString);
       setLoading(false);
@@ -48,8 +46,8 @@ export default function RecordList() {
         return;
       }
 
-      const records = await response.json();
-      setRecords(records);
+      const recordsResponse = await response.json();
+      setRecords(recordsResponse);
     }
 
     getRecords();
@@ -80,21 +78,30 @@ export default function RecordList() {
 
   // This following section will display the table with the records of individuals.
   return (
-    <div className="container">
-      <h3 className="contact-title">Contact List</h3>
-      <table className="table table-striped" style={{ marginTop: 20 }}>
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Age</th>
-            <th>Current College</th>
-            <th>Modify Student</th>
-          </tr>
-        </thead>
-        <tbody>{recordList()}</tbody>
-      </table>
+    <div className="angled-bg">
+      <div className="container">
+        <h3 className="contact-title">Contact List</h3>
+        <table
+          className={loading ? "loading-wrapper-style" : "table"}
+          style={{ marginTop: 20 }}
+        >
+          {loading ? null : (
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Current College</th>
+                <th>Modify Student</th>
+              </tr>
+            </thead>
+          )}
+          <tbody className={loading ? "loading-center-wheel" : null}>
+            {loading ? <Loader /> : recordList()}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
